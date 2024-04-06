@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.0"
+      version = "~> 5.4.0"
     }
     # azurerm = {
     #   source  = "hashicorp/azurerm"
@@ -43,4 +43,8 @@ resource "aws_security_group" "instance" {
 output "id" {
   # value = aws_instance.ec2_instance.id
   value = aws_security_group.instance.id
+}
+
+resource "aws" "name" {
+  
 }
