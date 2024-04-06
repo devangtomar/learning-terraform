@@ -1,4 +1,5 @@
 terraform {
+  # Variables aren't allowed in a backend configuration.
   backend "s3" {
     # Replace this with your bucket name!
     bucket = "terraform-up-and-running-state"

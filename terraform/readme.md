@@ -10,3 +10,4 @@
 
 - `terraform state`
 - `terraform import`
+- `terraform init -backend-config=backend.hcl`
