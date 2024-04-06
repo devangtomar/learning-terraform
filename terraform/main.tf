@@ -61,11 +61,16 @@ resource "aws_launch_configuration" "example" {
   echo "Hello, World" > index.html
   nohup busybox httpd -f -p ${var.server_port} &
   EOF
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_autoscaling_group" "asg_example" {
   depends_on           = [aws_security_group.instance]
   launch_configuration = aws_launch_configuration.example.name
+  vpc_zone_identifier  = data.aws_subnets.default.ids
   min_size             = 2
   max_size             = 10
 
