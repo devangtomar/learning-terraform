@@ -11,3 +11,7 @@
 - `terraform state`
 - `terraform import`
 - `terraform init -backend-config=backend.hcl`
+
+## Terraform workspace
+
+For creating a workspace : `terraform workspace new prod`
