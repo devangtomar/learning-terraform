@@ -15,3 +15,5 @@
 ## Terraform workspace
 
 For creating a workspace : `terraform workspace new prod`
+For listing a workspace : `terraform workspace list`
+For selecting a workspace : `terraform workspace select prod`
