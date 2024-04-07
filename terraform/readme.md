@@ -7,6 +7,9 @@ Here's a list of basic Terraform commands you should familiarize yourself with:
 - `terraform validate` - Validates the Terraform configuration files in a directory.
 - `terraform plan` - Creates an execution plan.
 - `terraform apply --auto-approve` - Applies the changes required to reach the desired state of the configuration, and then automatically approves the execution.
+- `terraform import` - If you created infrastructure before you started using Terraform, you can use
+  the terraform import command to add that infrastructure to Terraform’s state
+  file so that Terraform is aware of and can manage that infrastructure.
 
 ## Isolation via File Layout
 
