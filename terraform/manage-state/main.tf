@@ -1,11 +1,16 @@
+# Shared storage for state files ~ To be able to use Terraform to update your infrastructure, each of your team
+# members needs access to the same Terraform state files. That means you need to
+# store those files in a shared location.
+
 terraform {
   # Variables aren't allowed in a backend configuration.
   backend "s3" {
-    # Replace this with your bucket name!
+    # Replace this with your bucket name ~ for shared storage for state files
     bucket = "terraform-up-and-running-state"
     key    = "global/s3/terraform.tfstate"
     region = "us-east-2"
-    # Replace this with your DynamoDB table name!
+
+    # Replace this with your DynamoDB table name  ~ for locking
     dynamodb_table = "terraform-up-and-running-locks"
     encrypt        = true
   }

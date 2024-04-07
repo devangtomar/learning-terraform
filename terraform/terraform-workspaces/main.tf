@@ -1,3 +1,5 @@
+# We use workspaces for state file isolation for different env : qa, dev, stage and prod
+
 terraform {
   backend "s3" {
     # Replace this with your bucket name!
