@@ -45,7 +45,8 @@ data "terraform_remote_state" "db" {
   config = {
     bucket = "(YOUR_BUCKET_NAME)"
     key    = "stage/data-stores/mysql/terraform.tfstate"
-    region = "us-east-2"
+    # region = "us-east-2"
+    region = file('./main.tf') # You can use like as well
   }
 }
 

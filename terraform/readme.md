@@ -84,6 +84,100 @@ nohup busybox httpd -f -p ${var.server_port} &
 EOF
 
 ```
+Certainly! Here is the properly formatted README.md content with Markdown formatting applied:
+
+```markdown
+6912f052-7d4f-4b27-a31e-d0e84b59b0eb
+
+As the User Data script is growing longer, defining it inline is becoming messier and messier. In general, embedding one programming language (Bash) inside another (Terraform) makes it more difficult to maintain each one, so let’s pause here for a moment to externalize the Bash script. To do that, you can use the `templatefile` built-in function.
+
+Terraform includes a number of built-in functions that you can execute using an expression of the form:
+
+
+```
+function_name(...)
+```
+8ad04671-8a1a-4da7-8a14-fbdd96d346f2
+
+
+For example, consider the `format` function:
+
+
+```
+format(<FMT>, <ARGS>, ...)
+```
+273f17fc-1b4c-4a0d-83a0-972c871be4fc
+
+
+This function formats the arguments in `ARGS` according to the sprintf syntax in the string `FMT`. A great way to experiment with built-in functions is to run the `terraform console` command to get an interactive console where you can try out Terraform syntax, query the state of your infrastructure, and see the results instantly:
+
+
+```
+$ terraform console
+
+> format("%.3f", 3.14159265359)
+> 3.142
+```
+9ff8b03f-3118-4f1d-a234-ec4d4bdd2fe7
+
+
+> Note that the Terraform console is read-only, so you don’t need to worry about accidentally changing infrastructure or state.
+
+There are a number of other built-in functions that you can use to manipulate strings, numbers, lists, and maps. One of them is the `templatefile` function:
+
+
+```
+templatefile(<PATH>, <VARS>)
+```
+4bf5453a-7646-43a5-946d-f83a5fbb49e1
+
+
+This function reads the file at `PATH`, renders it as a template, and returns the result as a string. When I say “renders it as a template,” what I mean is that the file at `PATH` can use the string interpolation syntax in Terraform (`${...}`), and Terraform will render the contents of that file, filling variable references from `VARS`.
+
+To see this in action, put the contents of the User Data script into the file `stage/services/webserver-cluster/user-data.sh` as follows:
+
+
+```bash
+#!/bin/bash
+cat > index.html <<EOF
+
+<h1>Hello, World</h1>
+<p>DB address: ${db_address}</p>
+<p>DB port: ${db_port}</p>
+EOF
+nohup busybox httpd -f -p ${server_port} &
+```
+ce42de45-9c04-4779-bcbf-dfc23a2aafb1
+
+
+Note that this Bash script has a few changes from the original:
+- It looks up variables using Terraform’s standard interpolation syntax, except the only variables it has access to are those you pass in via the second parameter to `templatefile` (as you’ll see shortly), so you don’t need any prefix to access them. For example, you should use `${server_port}` and not `${var.server_port}`.
+- The script now includes some HTML syntax (e.g., `<h1>`) to make the output a bit more readable in a web browser.
+
+The final step is to update the `user_data` parameter of the `aws_launch_configuration` resource to call the `templatefile` function and pass in the variables it needs as a map:
+
+
+```hcl
+resource "aws_launch_configuration" "example" {
+  image_id        = "ami-0fb653ca2d3203ac1"
+  instance_type   = "t2.micro"
+  security_groups = [aws_security_group.instance.id]
+
+  # Render the User Data script as a template
+  user_data = templatefile("user-data.sh", {
+    server_port = var.server_port
+    db_address  = data.terraform_remote_state.db.outputs.address
+    db_port     = data.terraform_remote_state.db.outputs.port
+  })
+
+  # Required when using a launch configuration with an auto scaling group.
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+```
+
+Ah, that’s much cleaner than writing Bash scripts inline!
 
 ## Later Need to Learn
 
@@ -116,3 +210,7 @@ For storing state (via S3 bucket or any files storage) and locking it (via Dynam
 To put all your partial configurations together, run `terraform init` with the `-backend-config` argument:
 
 - `terraform init -backend-config=backend.hcl`
+```
+```
+
+You can copy this Markdown code block directly into a README.md file for a structured and readable document.
