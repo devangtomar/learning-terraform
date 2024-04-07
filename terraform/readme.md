@@ -8,6 +8,19 @@ Here's a list of basic Terraform commands you should familiarize yourself with:
 - `terraform plan` - Creates an execution plan.
 - `terraform apply --auto-approve` - Applies the changes required to reach the desired state of the configuration, and then automatically approves the execution.
 
+## Isolation via file layout
+
+Diagram : <br><br> <img src='./file-layout.png'>
+
+To achieve full isolation between environments, you need to do the following:
+• Put the Terraform configuration files for each environment into a separate folder.•
+For example, all of the configurations for the staging environment can be in a
+folder called stage and all the configurations for the production environment can
+be in a folder called prod.
+• Configure a different backend for each environment, using different authentica‐•
+tion mechanisms and access controls: e.g., each environment could live in a
+separate AWS account with a separate S3 bucket as a backend.
+
 ## Later Need to Learn
 
 As you become more comfortable with Terraform, consider learning these advanced commands:
