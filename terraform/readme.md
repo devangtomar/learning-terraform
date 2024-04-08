@@ -250,3 +250,175 @@ module "webserver_cluster" {
 
 Example : `terraform import aws_instance.ec2_example instanceID`
 Example : `terraform import aws_instance.ec2_example 4435dfdsf234324`
+
+## For pulling and pushing(not recommended) state from backend
+
+`terraform state pull`
+
+and
+
+`terraform state push`
+
+## For providing variables via CLI
+
+`terraform plan -var="abc=123"`
+
+## For logging
+
+Assign these 2 env variables..
+
+```bash
+env TF_LOG = 'debug' # level of logging you want..
+env TF_LOG_PATH = /path/to/log/file.log # path where the logs will be stored..
+```
+
+## For storing secrets.
+
+1. Hardcode the secrets (not recommended)
+2. Use shared_file..
+
+```terraform
+provider "aws" {
+  shared_credentials_file = "./file.txt"
+}
+```
+
+3. Use environment variable
+
+```bash
+export AWS_ACCESS_KEY = 'adfdsfsf'
+export AWS_SECRET_ACCESS_KEY = 'dfsfdsf'
+```
+
+## Variables
+
+First way to define variables.tf
+
+```terraform
+variable "num" {
+  default = 3
+}
+```
+
+Second way to use variables.tf and values.tfvar
+
+variables.tf ~> same as above
+
+values.tfvar
+
+```terraform
+num = 3
+```
+
+## Terraform Provisioners Example
+
+This repository provides an example of how to use the following provisioners in Terraform:
+
+### 1. File Provisioner
+
+The `file` provisioner is used for copying files or directories to the remote host machine. It allows you to specify the source and destination paths for the files/directories to be copied.
+
+Example usage:
+
+```hcl
+
+provisioner "file" {
+  source      = "path/to/local/file"
+  destination = "/path/on/remote/host"
+}
+
+```
+
+### 2. Local-Exec Provisioner
+
+The `local-exec` provisioner is used for executing commands on the local host machine. It allows you to run arbitrary commands or scripts before or after the resource is created or destroyed.
+
+Example usage:
+
+```hcl
+
+provisioner "local-exec" {
+  command = "echo 'Hello, World!'"
+}
+
+```
+
+### 3. Remote-Exec Provisioner
+
+The `remote-exec` provisioner is used for executing commands on the remote host machine. It allows you to run arbitrary commands or scripts on the remote host after the resource is created.
+
+Example usage:
+
+```hcl
+
+provisioner "remote-exec" {
+  inline = [
+    "echo 'Hello, World!'",
+    "mkdir /path/on/remote/host"
+  ]
+}
+
+```
+
+# Terraform Data Sources Example
+
+This repository provides an example of how to use Terraform data sources to retrieve information from external systems and use it in your Terraform configuration.
+
+## 1. AWS S3 Bucket Data Source
+
+The `aws_s3_bucket` data source is used to retrieve information about an existing S3 bucket in AWS. It allows you to reference the bucket's attributes, such as its ARN or region, in your Terraform configuration.
+
+Example usage:
+
+```hcl
+data "aws_s3_bucket" "example_bucket" {
+  bucket = "example-bucket"
+}
+
+resource "aws_s3_bucket_object" "example_object" {
+  bucket = data.aws_s3_bucket.example_bucket.id
+  key    = "example-object.txt"
+  source = "path/to/local/file.txt"
+}
+```
+
+## Terraform Data Sources Example
+
+This repository provides an example of how to use Terraform data sources to retrieve information from external systems and use it in your Terraform configuration.
+
+## 1. AWS S3 Bucket Data Source
+
+The `aws_s3_bucket` data source is used to retrieve information about an existing S3 bucket in AWS. It allows you to reference the bucket's attributes, such as its ARN or region, in your Terraform configuration.
+
+Example usage:
+
+```hcl
+data "aws_s3_bucket" "example_bucket" {
+  bucket = "example-bucket"
+}
+
+resource "aws_s3_bucket_object" "example_object" {
+  bucket = data.aws_s3_bucket.example_bucket.id
+  key    = "example-object.txt"
+  source = "path/to/local/file.txt"
+}
+```
+
+## 2. GitHub Repository Data Source
+
+The `github_repository` data source is used to retrieve information about an existing GitHub repository. It allows you to reference the repository's attributes, such as its URL or default branch, in your Terraform configuration.
+
+Example usage:
+
+```hcl
+data "github_repository" "example_repo" {
+  owner = "example-org"
+  name  = "example-repo"
+}
+
+resource "github_issue" "example_issue" {
+  repository = data.github_repository.example_repo.full_name
+  title      = "Example Issue"
+  body       = "This is an example issue created by Terraform."
+}
+```
