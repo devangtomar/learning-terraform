@@ -245,3 +245,8 @@ module "webserver_cluster" {
 ```
 
 ### Note : that whenever you add a module to your Terraform configurations or modify the source parameter of a module, you need to run the init command before you run plan or apply
+
+## Terraform import ~ For importing manually created resources..
+
+Example : `terraform import aws_instance.ec2_example instanceID`
+Example : `terraform import aws_instance.ec2_example 4435dfdsf234324`
