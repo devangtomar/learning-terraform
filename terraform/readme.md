@@ -91,17 +91,17 @@ EOF
 Certainly! Here is the properly formatted README.md content with Markdown formatting applied:
 
 ```markdown
-6912f052-7d4f-4b27-a31e-d0e84b59b0eb
+
 
 As the User Data script is growing longer, defining it inline is becoming messier and messier. In general, embedding one programming language (Bash) inside another (Terraform) makes it more difficult to maintain each one, so let’s pause here for a moment to externalize the Bash script. To do that, you can use the `templatefile` built-in function.
 
 Terraform includes a number of built-in functions that you can execute using an expression of the form:
+
 ```
 
 function_name(...)
 
 ```
-8ad04671-8a1a-4da7-8a14-fbdd96d346f2
 
 
 For example, consider the `format` function:
@@ -112,7 +112,6 @@ For example, consider the `format` function:
 format(<FMT>, <ARGS>, ...)
 
 ```
-273f17fc-1b4c-4a0d-83a0-972c871be4fc
 
 
 This function formats the arguments in `ARGS` according to the sprintf syntax in the string `FMT`. A great way to experiment with built-in functions is to run the `terraform console` command to get an interactive console where you can try out Terraform syntax, query the state of your infrastructure, and see the results instantly:
@@ -126,7 +125,6 @@ $ terraform console
 > 3.142
 
 ```
-9ff8b03f-3118-4f1d-a234-ec4d4bdd2fe7
 
 
 > Note that the Terraform console is read-only, so you don’t need to worry about accidentally changing infrastructure or state.
@@ -139,8 +137,6 @@ There are a number of other built-in functions that you can use to manipulate st
 templatefile(<PATH>, <VARS>)
 
 ````
-4bf5453a-7646-43a5-946d-f83a5fbb49e1
-
 
 This function reads the file at `PATH`, renders it as a template, and returns the result as a string. When I say “renders it as a template,” what I mean is that the file at `PATH` can use the string interpolation syntax in Terraform (`${...}`), and Terraform will render the contents of that file, filling variable references from `VARS`.
 
