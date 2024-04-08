@@ -422,3 +422,18 @@ resource "github_issue" "example_issue" {
   body       = "This is an example issue created by Terraform."
 }
 ```
+
+# Terraform Null Resource Example
+
+This example demonstrates how to use the `null_resource` in Terraform. The `null_resource` is a resource type that does nothing and is used to represent a resource that has no real effect on the infrastructure.
+
+## Example Usage
+
+```hcl
+resource "null_resource" "example" {
+  # Specify any required arguments or attributes here
+  # ...
+  # Specify any provisioners or triggers here
+  # ...
+}
+```
