@@ -282,9 +282,11 @@ provider "aws" {
 3. Use environment variable
 
 ```bash
-export AWS_ACCESS_KEY = 'adfdsfsf'
+export AWS_ACCESS_KEY_ID = 'adfdsfsf'
 export AWS_SECRET_ACCESS_KEY = 'dfsfdsf'
 ```
+
+4. Use solutions like : AWS secrets manager, GCP secrets manager or Azure key vault
 
 ## Variables
 
@@ -432,4 +434,11 @@ resource "null_resource" "example" {
   # Specify any provisioners or triggers here
   # ...
 }
+```
+
+## Create and apply a plan file via terraform
+
+```terraform
+terraform plan -out=your-plan.plan
+terraform apply your-plan.plan
 ```
