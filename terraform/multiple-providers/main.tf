@@ -62,5 +62,5 @@ resource "aws_iam_user" "region_1_iam_user" {
   tags = {
     Name = "dev-role"
     Environment = "stage"
-  }}
+  }
 }
