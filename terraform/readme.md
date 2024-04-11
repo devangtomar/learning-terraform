@@ -91,12 +91,9 @@ EOF
 Certainly! Here is the properly formatted README.md content with Markdown formatting applied:
 
 ```markdown
-
-
 As the User Data script is growing longer, defining it inline is becoming messier and messier. In general, embedding one programming language (Bash) inside another (Terraform) makes it more difficult to maintain each one, so let’s pause here for a moment to externalize the Bash script. To do that, you can use the `templatefile` built-in function.
 
 Terraform includes a number of built-in functions that you can execute using an expression of the form:
-
 ```
 
 function_name(...)
@@ -441,4 +438,146 @@ resource "null_resource" "example" {
 ```terraform
 terraform plan -out=your-plan.plan
 terraform apply your-plan.plan
+```
+
+## For managing Terraform version..
+
+`tfenv` utility can be used for managing terraform version..
+
+## Validation, preconditions and postconditions..
+
+As of Terraform 1.2, you can add precondition and postcondition blocks to
+resources, data sources, and output variables to perform more dynamic checks. The
+precondition blocks are for catching errors before you run apply. For example, you
+could use a precondition block to do a more robust check that the instance_type
+the user passes in is in the AWS Free Tier.
+
+### Validations
+
+```terraform
+variable "instance_type" {
+ description = "The type of EC2 Instances to run (e.g. t2.micro)"
+ type = string
+ validation {
+ condition = contains(["t2.micro", "t3.micro"], var.instance_type)
+ error_message = "Only free tier is allowed: t2.micro | t3.micro."
+ }
+}
+```
+
+More example for validations..
+
+```terraform
+variable "min_size" {
+ description = "The minimum number of EC2 Instances in the ASG"
+ type = number
+ validation {
+ condition = var.min_size > 0
+ error_message = "ASGs can't be empty or we'll have an outage!"
+ }
+ validation {
+ condition = var.min_size <= 10
+ error_message = "ASGs must have 10 or fewer instances to keep costs down."
+ }
+}
+
+```
+
+### preconditions
+
+```terraform
+resource "aws_launch_configuration" "example" {
+ image_id = var.ami
+ instance_type = var.instance_type
+ security_groups = [aws_security_group.instance.id]
+ user_data = var.user_data
+ # Required when using a launch configuration with an auto scaling group.
+ lifecycle {
+ create_before_destroy = true
+ precondition {
+ condition = data.aws_ec2_instance_type.instance.free_tier_eligible
+ error_message = "${var.instance_type} is not part of the AWS Free Tier!"
+ }
+ }
+}
+```
+
+### postconditions
+
+```terraform
+resource "aws_autoscaling_group" "example" {
+ name = var.cluster_name
+ launch_configuration = aws_launch_configuration.example.name
+ vpc_zone_identifier = var.subnet_ids
+ lifecycle {
+ postcondition {
+ condition = length(self.availability_zones) > 1
+ error_message = "You must use more than one AZ for high availability!"
+ }
+ }
+ # (...)
+}
+
+```
+
+## Provisioners, Provisioners with null_resource and External data source
+
+### Provisioners
+
+```terraform
+resource "aws_instance" "example" {
+ ami = data.aws_ami.ubuntu.id
+ instance_type = "t2.micro"
+ provisioner "local-exec" {
+ command = "echo \"Hello, World from $(uname -smp)\""
+ }
+}
+```
+
+more examples for provisioners..
+
+```terraform
+
+resource "aws_instance" "example" {
+ ami = data.aws_ami.ubuntu.id
+ instance_type = "t2.micro"
+ vpc_security_group_ids = [aws_security_group.instance.id]
+ key_name = aws_key_pair.generated_key.key_name
+ provisioner "remote-exec" {
+ inline = ["echo \"Hello, World from $(uname -smp)\""]
+ }
+}
+```
+
+### Provisioners with null-resource
+
+```terraform
+resource "null_resource" "example" {
+ # Use UUID to force this null_resource to be recreated on every
+ # call to 'terraform apply'
+ triggers = {
+ uuid = uuid()
+ }
+ provisioner "local-exec" {
+ command = "echo \"Hello, World from $(uname -smp)\""
+ }
+}
+
+```
+
+### External data source
+
+```terraform
+data "external" "echo" {
+ program = ["bash", "-c", "cat /dev/stdin"]
+ query = {
+ foo = "bar"
+ }
+}
+output "echo" {
+ value = data.external.echo.result
+}
+output "echo_foo" {
+ value = data.external.echo.result.foo
+}
 ```
