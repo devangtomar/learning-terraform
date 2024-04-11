@@ -588,3 +588,9 @@ The Production-Grade Infrastructure Checklist
 
 ![File Layout](./prod-1.png)
 ![File Layout](./prod-2.png)
+
+## Terraform state errors..
+
+For pushing state to remote backend : `terraform state push errored.tfstate`
+
+Force unlocking.. : `terraform force-unlock <lock_ID>`
