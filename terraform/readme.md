@@ -581,3 +581,10 @@ output "echo_foo" {
  value = data.external.echo.result.foo
 }
 ```
+
+## Production grade code for terraform..
+
+The Production-Grade Infrastructure Checklist
+
+![File Layout](./prod-1.png)
+![File Layout](./prod-2.png)
