@@ -6,10 +6,11 @@ Here's a list of basic Terraform commands you should familiarize yourself with:
 - `terraform fmt` - Rewrites Terraform configuration files to a canonical format and style.
 - `terraform validate` - Validates the Terraform configuration files in a directory.
 - `terraform plan` - Creates an execution plan.
+- `terraform plan --var-file="terraform-dev.tfvars"` - To plan while providing tfvars file (another file used for storing variables : variables.tf file instead)..
 - `terraform apply --auto-approve` - Applies the changes required to reach the desired state of the configuration, and then automatically approves the execution.
-- `terraform import` - If you created infrastructure before you started using Terraform, you can use
-  the terraform import command to add that infrastructure to Terraform’s state
-  file so that Terraform is aware of and can manage that infrastructure.
+- `terraform import` - If you created infrastructure before you started using `
+  Terraform, you can use the terraform import command to add that infrastructure to Terraform’s state file so that Terraform is aware of and can manage that infrastructure.
+- `terraform destroy --var-file="terraform-prod.tfvars"` - specific variable files
 
 ## Isolation via File Layout
 
