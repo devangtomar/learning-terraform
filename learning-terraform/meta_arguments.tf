@@ -9,13 +9,19 @@ resource "aws_iam_user" "user_example" {
   name  = var.usernames[count.index]
 }
 
+variable "more_usernames" {
+  type = set(string)
+  description = "More IAM usernames"
+  default     = ["user1", "user2", "user3", "user4"]
+}
+
 resource "aws_iam_user" "more_user_example" {
-  for_each = var.usernames
+  for_each = var.more_usernames
   name     = each.value
 }
 
 output "print_the_names" {
-  value = [for name in var.var.usernames : name]
+  value = [for name in var.usernames : name]
 }
 
 resource "aws_instance" "ec2_1" {
@@ -27,7 +33,7 @@ resource "aws_instance" "ec2_1" {
   lifecycle {
     prevent_destroy       = false
     create_before_destroy = false
-    ignore_changes        = [tags]
+    # ignore_changes        = [tags]
   }
 }
 
