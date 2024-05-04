@@ -1,4 +1,6 @@
 resource "aws_instance" "instance_1" {
+  instance_type = aws_instance.ec2_1.instance_type
+  ami           = aws_instance.ec2_1.ami
   provisioner "file" {
     source      = "./data.tf"
     destination = "/home/ubuntu/data.tf"

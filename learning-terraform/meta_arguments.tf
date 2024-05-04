@@ -10,7 +10,7 @@ resource "aws_iam_user" "user_example" {
 }
 
 variable "more_usernames" {
-  type = set(string)
+  type        = set(string)
   description = "More IAM usernames"
   default     = ["user1", "user2", "user3", "user4"]
 }
