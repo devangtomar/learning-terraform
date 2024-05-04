@@ -54,6 +54,11 @@ resource "aws_route_table" "my_vpc_eu_central_1c_public" {
 resource "aws_route_table_association" "my_vpc_eu_central_1c_public" {
   subnet_id      = aws_subnet.my_subnet.id
   route_table_id = aws_route_table.my_vpc_eu_central_1c_public.id
+  lifecycle {
+    create_before_destroy = false
+    prevent_destroy       = false
+    ignore_changes        = [tags]
+  }
 }
 
 resource "aws_instance" "ec2_example" {
@@ -65,5 +70,11 @@ resource "aws_instance" "ec2_example" {
 
   tags = {
     Name = var.tag
+  }
+  lifecycle {
+    create_before_destroy = false # By default, when Terraform must change a resource argument that cannot be updated in-place due to remote API limitations, Terraform will instead destroy the existing object and then create a new replacement object with the new configured arguments.
+    prevent_destroy       = false # This meta-argument, when set to true, will cause Terraform to reject with an error any plan that would destroy the infrastructure object associated with the resource, as long as the argument remains present in the configuration.
+    ignore_changes        = [tags] # Ignore changes to tags, e.g. because a management agent
+    # updates these based on some ruleset managed elsewhere.
   }
 }
