@@ -17,3 +17,21 @@ resource "aws_iam_user" "more_user_example" {
 output "print_the_names" {
   value = [for name in var.var.usernames : name]
 }
+
+resource "aws_instance" "ec2_1" {
+  instance_type = var.instance_type
+  ami           = data.aws_ami.ubuntu.id
+  tags = {
+    "Name" = "stage"
+  }
+  lifecycle {
+    prevent_destroy       = false
+    create_before_destroy = false
+    ignore_changes        = [tags]
+  }
+}
+
+resource "aws_iam_instance_profile" "test_profile" {
+  name       = "test"
+  depends_on = [aws_instance.ec2_1]
+}
