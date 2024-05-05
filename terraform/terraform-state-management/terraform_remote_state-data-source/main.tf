@@ -15,6 +15,10 @@ resource "aws_db_instance" "example" {
 
 terraform {
   backend "s3" {
+
+    # S3 bucket will be used for state management, versioning, encryption &
+    # Dynamo DB is used for state locking, non-concurrent actions on infra..
+
     # Replace this with your bucket name!
     bucket = "terraform-up-and-running-state"
     key    = "stage/data-stores/mysql/terraform.tfstate"
