@@ -41,3 +41,9 @@ resource "aws_iam_instance_profile" "test_profile" {
   name       = "test"
   depends_on = [aws_instance.ec2_1]
 }
+
+
+resource "aws_iam_group" "groups" {
+  for_each = var.more_usernames
+  name = "${each.value}-"
+}
