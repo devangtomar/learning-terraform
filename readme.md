@@ -11,6 +11,7 @@ Here's a list of basic Terraform commands you should familiarize yourself with:
 - `terraform import` - If you created infrastructure before you started using `
   Terraform, you can use the terraform import command to add that infrastructure to Terraform’s state file so that Terraform is aware of and can manage that infrastructure.
 - `terraform destroy --var-file="terraform-prod.tfvars"` - specific variable files
+- `terraform apply --target=ec2.example.com main.tf` - Apply or delete any particular target..
 
 ## Isolation via File Layout
 
