@@ -22,7 +22,7 @@ To achieve full isolation between environments, you need to do the following:
 
 Diagram:
 
-![File Layout](./file-layout.png)
+![File Layout](./terraform/file-layout.png)
 
 At the top level, there are separate folders for each "environment." The exact environments differ for every project, but the typical ones are as follows:
 
@@ -224,7 +224,7 @@ You can copy this Markdown code block directly into a README.md file for a struc
 
 ## Terraform modules
 
-![File Layout](./terraform-modules/image.png)
+![File Layout](./terraform/terraform-modules/image.png)
 
 To make use of modules..
 
@@ -588,8 +588,8 @@ output "echo_foo" {
 
 The Production-Grade Infrastructure Checklist
 
-![File Layout](./prod-1.png)
-![File Layout](./prod-2.png)
+![File Layout](./terraform/prod-1.png)
+![File Layout](./terraform/prod-2.png)
 
 ## Terraform state errors..
 

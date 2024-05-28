@@ -41,6 +41,10 @@ resource "aws_security_group" "new-sg" {
   }
 }
 
+provider "aws" {
+  shared_credentials_file = abs("/home/user/credentials.sec")
+}
+
 resource "null_resource" "some-script" {
 
   provisioner "local-exec" {
