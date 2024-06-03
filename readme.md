@@ -66,6 +66,19 @@ set TF_VAR_db_username="(YOUR_DB_USERNAME)"
 set TF_VAR_db_password="(YOUR_DB_PASSWORD)"
 ```
 
+And to use it inside the .tf files..
+
+```terraform
+resource "aws_instance" "example" {
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+  tags = {
+    Name = var.db_username
+    Pass = var.db_password
+  }
+}
+```
+
 All of the database’s output variables are stored in the state file, and you can read
 them from the terraform_remote_state data source using an attribute reference of
 the form:
