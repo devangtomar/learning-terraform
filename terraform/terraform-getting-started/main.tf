@@ -13,6 +13,7 @@ terraform {
 
 provider "aws" {
   region = "ap-south-1"
+  shared_credentials_file = abspath("./file.txt")
 }
 
 resource "aws_instance" "ec2_instance" {
