@@ -6,3 +6,7 @@ data "aws_ami" "ubuntu" {
   }
   owners = ["099720109477"] # Canonical
 }
+
+resource "aws_acm_certificate" "name" {
+  tags = data.aws_ami.ubuntu.tags
+}
