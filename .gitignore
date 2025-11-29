@@ -29,7 +29,6 @@ override.tf.json
 terraform.rc
 
 # Keys / secret files
-keys.txt
 *.pem
 *.key
 
