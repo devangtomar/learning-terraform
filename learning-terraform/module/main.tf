@@ -10,7 +10,7 @@ module "webserver-1" {
 }
 
 module "webserver-2" {
-  source = ".//module2"
+  source = ".//module1"
 
   instance_type     = "t2.micro"
   tag               = "Webserver2 - Module2 - 22.04"
